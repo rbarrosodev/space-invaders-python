@@ -5,13 +5,14 @@ import globals
 
 
 class DiffMenu:
-    def __init__(self):
+    def __init__(self, window):
         self.background = GameImage("img/background.png")
         self.easy_btn = Button("img/diff_menu/easy.png", 210, 80)
         self.medium_btn = Button("img/diff_menu/medium.png", 210, 160)
         self.hard_btn = Button("img/diff_menu/hard.png", 210, 240)
         self.back_btn = Button("img/diff_menu/back.png", 30, 80)
         self.mouse = Mouse()
+        self.window = window
 
     def run(self):
         self.background.draw()
@@ -23,3 +24,20 @@ class DiffMenu:
         if self.mouse.is_over_object(self.back_btn):
             if self.mouse.is_button_pressed(1):
                 globals.GAME_STATE = 1
+
+        if self.mouse.is_over_object(self.easy_btn):
+            if self.mouse.is_button_pressed(1):
+                globals.shot_cooldown = 0.4
+                self.window.draw_text("Dificuldade mudada para Fácil", (self.window.width / 2) - 200, 375, 30,
+                                      [255, 255, 255])
+        if self.mouse.is_over_object(self.medium_btn):
+            if self.mouse.is_button_pressed(1):
+                globals.shot_cooldown = 0.7
+                self.window.draw_text("Dificuldade mudada para Médio", (self.window.width / 2) - 200, 375, 30,
+                                      [255, 255, 255])
+        if self.mouse.is_over_object(self.hard_btn):
+            if self.mouse.is_button_pressed(1):
+                globals.shot_cooldown = 1
+                self.window.draw_text("Dificuldade mudada para Dificil", (self.window.width / 2) - 200, 375, 30,
+                                      [255, 255, 255])
+
