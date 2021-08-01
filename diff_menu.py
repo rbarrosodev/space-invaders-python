@@ -28,16 +28,16 @@ class DiffMenu:
         if self.mouse.is_over_object(self.easy_btn):
             if self.mouse.is_button_pressed(1):
                 globals.shot_cooldown = 0.4
-                self.window.draw_text("Dificuldade mudada para Fácil", (self.window.width / 2) - 200, 375, 30,
+                self.window.draw_text("Dificuldade alterada para Fácil", (self.window.width / 2) - 200, 375, 30,
                                       [255, 255, 255])
         if self.mouse.is_over_object(self.medium_btn):
             if self.mouse.is_button_pressed(1):
                 globals.shot_cooldown = 0.7
-                self.window.draw_text("Dificuldade mudada para Médio", (self.window.width / 2) - 200, 375, 30,
+                self.window.draw_text("Dificuldade alterada para Médio", (self.window.width / 2) - 200, 375, 30,
                                       [255, 255, 255])
         if self.mouse.is_over_object(self.hard_btn):
             if self.mouse.is_button_pressed(1):
                 globals.shot_cooldown = 1
-                self.window.draw_text("Dificuldade mudada para Dificil", (self.window.width / 2) - 200, 375, 30,
+                self.window.draw_text("Dificuldade alterada para Dificil", (self.window.width / 2) - 200, 375, 30,
                                       [255, 255, 255])
 
