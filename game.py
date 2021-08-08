@@ -1,4 +1,5 @@
 import globals
+from enemies import Enemies
 from player import Player
 
 
@@ -10,6 +11,7 @@ class Game:
         self.cron_fps = 0
         self.kb = window.get_keyboard()
         self.player = Player(self.window)
+        self.enemy = Enemies(self.window)
 
     def run(self):
         self.window.set_background_color([0, 0, 0])
@@ -21,6 +23,7 @@ class Game:
             self.fps = 0
             self.cron_fps = 0
 
+        self.enemy.run()
         self.player.run()
 
         if self.kb.key_pressed("esc"):
