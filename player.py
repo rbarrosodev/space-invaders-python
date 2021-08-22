@@ -8,6 +8,7 @@ class Player:
         self.spaceship = Sprite("img/spaceship.png")
         self.bullet_group = []
         self.kb = self.window.get_keyboard()
+        self.lifes = 6 - globals.diff
         self.cooldown = 0
         self.spaceship.set_position(self.window.width / 2, self.window.height - 50)
 

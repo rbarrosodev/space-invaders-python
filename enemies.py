@@ -1,3 +1,5 @@
+import random
+
 from PPlay.sprite import *
 import globals
 
@@ -11,6 +13,11 @@ class Enemies(object):
         self.enemy_qnty = self.col_size * self.lin_size
         self.enemy_vel = (5 * globals.diff * self.window.delta_time() * 1) / self.enemy_qnty
         self.enemies_direction = 1
+
+        self.bullet_group = []
+        self.shot_cron = 0
+        self.adv_cron = 0
+        self.shot_vel = 2 + (70 / self.enemy_qnty) * 0.2 + (1 * 0.5)
 
         self.cronometer = 0
         self.create()
@@ -54,12 +61,40 @@ class Enemies(object):
         else:
             self.cronometer += self.window.delta_time()
 
+    def shoot(self):
+        if self.shot_cron > 4 / (globals.diff + (1 * 0.5)):
+            selected = random.randint(0, self.enemy_qnty)
+            aux = 0
+            for i in range(len(self.enemies_matrix)):
+                for j in range(len(self.enemies_matrix[i])):
+                    aux += 1
+                    if aux == selected:
+                        shot = Sprite("img/bullet.png")
+                        shot.set_position(self.enemies_matrix[i][j].x + self.enemies_matrix[i][j].width/2 - shot.width/2, self.enemies_matrix[i][j].y)
+                        self.bullet_group.append(shot)
+                        self.shot_cron = 0
+                        return
+        else:
+            self.shot_cron += self.window.delta_time()
+
+    def update_shots(self):
+        self.shot_vel = 2 + (70 / self.enemy_qnty) * 0.2 + (1 * 0.5)
+        for i in range(len(self.bullet_group)):
+            self.bullet_group[i].move_y(self.window.delta_time() * globals.FRAME_PER_SECOND * self.shot_vel)
+            if self.bullet_group[i].y <= 0:
+                self.bullet_group.pop(i)
+                break
+
     def draw_enemies(self):
         for i in range(len(self.enemies_matrix)):
             for j in range(len(self.enemies_matrix[i])):
                 self.enemies_matrix[i][j].draw()
+        for i in range(len(self.bullet_group)):
+            self.bullet_group[i].draw()
 
     def run(self):
         self.move_enemies_x()
         self.move_enemies_y()
+        self.shoot()
+        self.update_shots()
         self.draw_enemies()
