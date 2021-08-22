@@ -22,6 +22,13 @@ class Game:
         self.dead_player.set_total_duration(1000)
         self.death_cron = 1
 
+    def reset(self):
+        self.score = 0
+        self.alive = True
+        self.enemy = Enemies(self.window)
+        self.player = Player(self.window)
+        self.death_cron = 1
+
     def enemy_collision_shot(self):
         for i in range(len(self.enemy.enemies_matrix)):
             for j in range(len(self.enemy.enemies_matrix[i])):
@@ -38,10 +45,10 @@ class Game:
     def game_over_y(self):
         for i in range(len(self.enemy.enemies_matrix)):
             for j in range(len(self.enemy.enemies_matrix[i])):
-                if self.enemy.enemies_matrix[i][j].y + self.enemy.enemies_matrix[i][
-                    j].height >= self.player.spaceship.y:
+                if self.enemy.enemies_matrix[i][j].y + self.enemy.enemies_matrix[i][j].height >= self.player.spaceship.y:
                     return True
         return False
+
 
     def player_collision_shot(self):
         for i in range(len(self.enemy.bullet_group)):
@@ -86,6 +93,7 @@ class Game:
         if self.game_over_y() or self.player.lifes == 0:
             self.alive = False
             globals.GAME_STATE = 1
+            self.reset()
 
         self.time += self.window.delta_time()
 
