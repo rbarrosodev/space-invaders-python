@@ -26,6 +26,9 @@ class MainMenu:
         if self.mouse.is_over_object(self.difficulty_btn):
             if self.mouse.is_button_pressed(1):
                 globals.GAME_STATE = 2
+        if self.mouse.is_over_object(self.ranking_btn):
+            if self.mouse.is_button_pressed(1):
+                globals.GAME_STATE = 4
         if self.mouse.is_over_object(self.exit_btn):
             if self.mouse.is_button_pressed(1):
                 globals.GAME_STATE = 5

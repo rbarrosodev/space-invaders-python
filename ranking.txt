@@ -1,0 +1,6 @@
+Rodrigo 1 208
+Thiago 2 243
+Yuri 3 439
+Fernando 2 349
+Camila 1 305
+teste 1 43

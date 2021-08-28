@@ -9,6 +9,7 @@ class Game:
     def __init__(self, window):
         self.window = window
         self.score = 0
+        self.level = 1
         self.time = 0
         self.fps = 0
         self.actual_fps = 0
@@ -28,6 +29,13 @@ class Game:
         self.enemy = Enemies(self.window)
         self.player = Player(self.window)
         self.death_cron = 1
+
+    def next_level(self):
+        self.enemy = Enemies(self.window)
+        self.player = Player(self.window)
+        self.death_cron = 1
+        self.level += 1
+        self.time = 0
 
     def enemy_collision_shot(self):
         for i in range(len(self.enemy.enemies_matrix)):
@@ -49,7 +57,6 @@ class Game:
                     return True
         return False
 
-
     def player_collision_shot(self):
         for i in range(len(self.enemy.bullet_group)):
             if Collision.collided(self.enemy.bullet_group[i], self.player.spaceship):
@@ -66,11 +73,28 @@ class Game:
         self.player.spaceship.set_position(self.window.width / 2 - self.player.spaceship.width / 2,
                                            self.window.height - 50)
 
+    def game_over(self):
+        file = open('ranking.txt', 'r')
+        content = file.readlines()
+        name = str(input('Digite seu nome: '))
+        line = name + ' ' + str(globals.diff) + ' ' + str(int(self.score)) + '\n'
+        content.append(line)
+        file.close()
+        file = open('ranking.txt', 'w')
+        file.writelines(content)
+        file.close()
+        print('Ranking atualizado com sucesso')
+        self.enemy = Enemies(self.window)
+        self.player = Player(self.window)
+        self.reset()
+        globals.GAME_STATE = 1
+
     def run(self):
         self.window.set_background_color([0, 0, 0])
-        self.window.draw_text("Vidas: " + str(self.player.lifes), 100, 10, 28, (255, 255, 255))
-        self.window.draw_text(f"Score: {self.score}", 300, 10, 30, (255, 255, 255))
-        self.window.draw_text(f"FPS: {self.actual_fps}", 500, 10, 30, (255, 255, 255))
+        self.window.draw_text("Vidas: " + str(self.player.lifes), 50, 10, 28, (255, 255, 255))
+        self.window.draw_text(f"Score: {self.score}", 200, 10, 30, (255, 255, 255))
+        self.window.draw_text(f"FPS: {self.actual_fps}", 400, 10, 30, (255, 255, 255))
+        self.window.draw_text(f"Level: {self.level}", 600, 10, 30, (255, 255, 255))
         self.cron_fps += self.window.delta_time()
         self.fps += 1
 
@@ -85,17 +109,25 @@ class Game:
             self.player_collision_shot()
             self.enemy_collision_shot()
 
+            if self.game_over_y() or self.player.lifes == 0:
+                self.game_over()
+                self.alive = False
+                globals.GAME_STATE = 1
+                self.reset()
+
+            if self.enemy.enemy_qnty == 0:
+                self.next_level()
+
+            self.time += self.window.delta_time()
+
+            if self.kb.key_pressed("esc"):
+                globals.GAME_STATE = 1
+                self.reset()
+
+        else:
+            self.game_over()
+
         if self.death_cron < 0.9:
             self.dead_player.draw()
             self.dead_player.update()
             self.death_cron += self.window.delta_time()
-
-        if self.game_over_y() or self.player.lifes == 0:
-            self.alive = False
-            globals.GAME_STATE = 1
-            self.reset()
-
-        self.time += self.window.delta_time()
-
-        if self.kb.key_pressed("esc"):
-            globals.GAME_STATE = 1
