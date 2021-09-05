@@ -62,7 +62,7 @@ class Enemies(object):
             self.cronometer += self.window.delta_time()
 
     def shoot(self):
-        if self.shot_cron > 4 / (globals.diff + (1 * 0.5)):
+        if self.shot_cron > 4 / (globals.diff + globals.level + (1 * 0.5)):
             selected = random.randint(0, self.enemy_qnty)
             aux = 0
             for i in range(len(self.enemies_matrix)):

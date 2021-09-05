@@ -9,7 +9,6 @@ class Game:
     def __init__(self, window):
         self.window = window
         self.score = 0
-        self.level = 1
         self.time = 0
         self.fps = 0
         self.actual_fps = 0
@@ -29,12 +28,13 @@ class Game:
         self.enemy = Enemies(self.window)
         self.player = Player(self.window)
         self.death_cron = 1
+        globals.level = 1
 
     def next_level(self):
         self.enemy = Enemies(self.window)
         self.player = Player(self.window)
         self.death_cron = 1
-        self.level += 1
+        globals.level += 1
         self.time = 0
 
     def enemy_collision_shot(self):
@@ -94,7 +94,7 @@ class Game:
         self.window.draw_text("Vidas: " + str(self.player.lifes), 50, 10, 28, (255, 255, 255))
         self.window.draw_text(f"Score: {self.score}", 200, 10, 30, (255, 255, 255))
         self.window.draw_text(f"FPS: {self.actual_fps}", 400, 10, 30, (255, 255, 255))
-        self.window.draw_text(f"Level: {self.level}", 600, 10, 30, (255, 255, 255))
+        self.window.draw_text(f"Level: {globals.level}", 600, 10, 30, (255, 255, 255))
         self.cron_fps += self.window.delta_time()
         self.fps += 1
 
