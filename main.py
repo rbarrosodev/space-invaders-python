@@ -10,7 +10,7 @@ from ranking import Ranking
 window = Window(800, 600)
 window.set_title("Space Invaders")
 background = GameImage("img/background.png")
-spaceship = Sprite("img/spaceship.png")
+spaceship = Sprite("img/spaceship-frozen.png")
 bullet = Sprite("img/bullet.png")
 main_menu = MainMenu()
 diff_menu = DiffMenu(window)

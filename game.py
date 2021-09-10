@@ -22,6 +22,10 @@ class Game:
         self.dead_player.set_total_duration(1000)
         self.death_cron = 1
 
+        self.cooldown_player = Animation("img/spaceship-frozen.png", 1)
+        self.cooldown_player.set_total_duration(3000)
+        self.cooldown_cron = 1
+
     def reset(self):
         self.score = 0
         self.alive = True
@@ -90,6 +94,7 @@ class Game:
         globals.GAME_STATE = 1
 
     def run(self):
+        print(self.player.shots)
         self.window.set_background_color([0, 0, 0])
         self.window.draw_text("Vidas: " + str(self.player.lifes), 50, 10, 28, (255, 255, 255))
         self.window.draw_text(f"Score: {self.score}", 200, 10, 30, (255, 255, 255))
@@ -126,6 +131,16 @@ class Game:
 
         else:
             self.game_over()
+
+        if self.player.shots == 10:
+            self.cooldown_player.set_position(self.player.spaceship.x, self.player.spaceship.y)
+            self.cooldown_player.draw()
+            self.cooldown_cron += self.window.delta_time()
+            if self.cooldown_cron >= 3:
+                self.cooldown_cron = 0
+                self.player.shots = 0
+                self.player.spaceship.draw()
+
 
         if self.death_cron < 0.9:
             self.dead_player.draw()

@@ -5,3 +5,5 @@ Fernando 2 349
 Camila 1 305
 teste 1 43
 bla 1 0
+dada 1 175
+Rodrigo 1 148
